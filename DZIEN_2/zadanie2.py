@@ -12,7 +12,6 @@ Iris Random Forest – pełny pipeline:
 
 from __future__ import annotations
 
-import argparse
 from dataclasses import dataclass
 from typing import Tuple
 
@@ -185,24 +184,18 @@ def plot_2d_scatter_predictions(
     plt.close(fig)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Random Forest na Iris – pełny pipeline")
-    parser.add_argument("--n_estimators", type=int, default=100, help="Liczba drzew w lesie (domyślnie 100)")
-    parser.add_argument("--random_state", type=int, default=1, help="Ziarno losowości (domyślnie 1)")
-    parser.add_argument("--test_size", type=float, default=0.30, help="Udział zbioru testowego (domyślnie 0.30)")
-    args = parser.parse_args()
-
+def main(n_estimators: int = 100, random_state: int = 1, test_size: float = 0.30) -> None:
     # 1) Wczytanie danych
     iris = load_iris_as_df()
 
     # 2) Podział danych
     X_train, X_test, y_train, y_test = split_data(
-        iris, test_size=args.test_size, random_state=args.random_state
+        iris, test_size=test_size, random_state=random_state
     )
 
     # 3) Trenowanie modelu
     clf = train_random_forest(
-        X_train, y_train, n_estimators=args.n_estimators, random_state=args.random_state
+        X_train, y_train, n_estimators=n_estimators, random_state=random_state
     )
 
     # 4) Ocena i metryki
